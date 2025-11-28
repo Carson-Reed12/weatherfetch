@@ -338,6 +338,7 @@ func convertTime(time any) any {
 // Prints the weather details with an icon and table of values
 func printWeather(weatherMap map[string]any, address string) {
 	currentConditionsInterface := weatherMap["currentConditions"]
+	resolvedAddress := fmt.Sprintf("%v", weatherMap["resolvedAddress"])
 
 	// Collects any alerts if they exist
 	var alertEvents []string
@@ -388,7 +389,7 @@ func printWeather(weatherMap map[string]any, address string) {
 
 		// Creates arrays that the table will be created from. Excludes precipitation if there is none, otherwise inserts it
 		statsHeaders := []any{"", "Description", "Condition", "Temperature", "Precipitation Chance", "Humidity", "UV Index", "Wind Speed", "Sunrise", "Sunset", "Storm Risk", ""}
-		statsList := []any{"┌────────────── " + Red + address + Reset + " " + extendHeader(description, address) + "──────────────┐", description, conditions, temp, precipprob, humidity, uvindex, windspeed, convertTime(sunrise), convertTime(sunset), severityVal, "└" + strings.Repeat("─", len(address)) + "──────────────────────────────┘"}
+		statsList := []any{"┌────────────── " + Red + resolvedAddress + Reset + " " + extendHeader(description, resolvedAddress) + "──────────────┐", description, conditions, temp, precipprob, humidity, uvindex, windspeed, convertTime(sunrise), convertTime(sunset), severityVal, "└" + strings.Repeat("─", len(resolvedAddress)) + "──────────────────────────────┘"}
 		if preciptype != nil {
 			statsHeaders = slices.Insert(statsHeaders, 5, "Precipitation Type")
 			statsList = slices.Insert(statsList, 5, preciptype)
