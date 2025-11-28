@@ -17,14 +17,13 @@ import (
 
 // Used to color text
 const (
-	White     = "\033[97m"
-	Red       = "\033[31m"
-	Green     = "\033[32m"
-	Yellow    = "\033[33m"
-	LightBlue = "\033[94m"
-	Blue      = "\033[34m"
-	Cyan      = "\033[36m"
-	Reset     = "\033[0m"
+	White  = "\033[97m"
+	Red    = "\033[31m"
+	Green  = "\033[32m"
+	Yellow = "\033[33m"
+	Blue   = "\033[34m"
+	Cyan   = "\033[36m"
+	Reset  = "\033[0m"
 )
 
 // Condition Icons
@@ -507,9 +506,9 @@ func extendHeader(description any, address string) string {
 func colorTemp(temp any) string {
 	if tempVal, ok := temp.(float64); ok {
 		if tempVal < 45 {
-			return LightBlue
-		} else if tempVal < 60 {
 			return Cyan
+		} else if tempVal < 60 {
+			return Blue
 		} else if tempVal < 78 {
 			return Green
 		} else if tempVal < 90 {
