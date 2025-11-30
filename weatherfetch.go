@@ -310,9 +310,9 @@ func getIcon(condition string, severity float64, currentTime string, sunrise str
 		return cloud
 	case "Partially cloudy":
 		if ct.Before(sr) || ct.After(ss) {
-			return partialCloud
-		} else {
 			return partialCloudNight
+		} else {
+			return partialCloud
 		}
 	case "Rain":
 		return rain
