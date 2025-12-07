@@ -244,7 +244,12 @@ func getWeather(address string) WeatherConditions {
 	if err != nil {
 		panic(err)
 	}
-	defer resp.Body.Close()
+
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			panic(err)
+		}
+	}()
 
 	body, err := io.ReadAll((resp.Body))
 	if err != nil {
