@@ -114,6 +114,24 @@ const fog string = `
 ⠀⠀⠀         ⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠛⠛⠛⠋⠉⠉⠀⠀         
                                            `
 
+const wind string = `
+                         ++++++++          
+                       ++++   ++++         
+                       +++      +++        
+                        +      +++         
+   +++++   +++++++++++++++++++++++         
+   ++++++ ++++++++++++++++++++++           
+                                           
+   ++++++++++++++++++++++++++++++++++++++  
+                                       ++++
+   ++++++ ++++++++++++++++++    ++      +++
+   +++++   ++++++++++++++++++   +++     +++
+                   ++      +++  ++++++++++ 
+                   +++     +++    +++++++  
+                   ++++   ++++             
+                    ++++++++               
+                                           `
+
 const storm string = `
                      ⢀⣤⣶⡿⣽⣻⣞⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
               ⠀⠀⠀⡀⢀⣴⣾⣿⣿⣿⢿⣿⡿⣿⣿⣾⣯⢷⣂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -361,8 +379,10 @@ func getConfigLocation() string {
 func getIcon(condition string, severity float64, currentTime string, sunrise string, sunset string, alerts []string) string {
 	if severity >= 4 && condition == "Rain" {
 		return storm
-	} else if slices.Contains(alerts, "Dense Fog Advisory") {
+	} else if condition != "Rain" && condition != "Snow" && slices.Contains(alerts, "Dense Fog Advisory") {
 		return fog
+	} else if condition != "Rain" && condition != "Snow" && slices.Contains(alerts, "Wind Advisory") {
+		return wind
 	}
 
 	ct, _ := time.Parse("15:04:05", currentTime)
