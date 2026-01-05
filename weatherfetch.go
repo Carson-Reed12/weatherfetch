@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -14,6 +15,7 @@ import (
 	"unicode"
 
 	"github.com/go-viper/mapstructure/v2"
+	"github.com/urfave/cli/v3"
 )
 
 // Used to color text
@@ -602,9 +604,32 @@ func colorSeverity(severity float64) string {
 
 // Driver for the program
 func main() {
-	configFile := getConfigLocation()
-	address := getAddress(configFile)
+	cmd := &cli.Command{
+		Name:  "weatherfetch",
+		Usage: "A terminal application that pulls weather data (inspired by neofetch)",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:    "address",
+				Aliases: []string{"a"},
+				Usage:   "Address or location for weather retrieval",
+			},
+		},
+		Action: func(ctx context.Context, cmd *cli.Command) error {
+			var address string
+			if cmd.String("address") != "" {
+				address = cmd.String("address")
+			} else {
+				configFile := getConfigLocation()
+				address = getAddress(configFile)
+			}
 
-	weatherMap := getWeather(address)
-	printWeather(weatherMap)
+			weatherMap := getWeather(address)
+			printWeather(weatherMap)
+			return nil
+		},
+	}
+
+	if err := cmd.Run(context.Background(), os.Args); err != nil {
+		panic(err)
+	}
 }
